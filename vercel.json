@@ -1,13 +1,13 @@
 {
     "builds": [{
-      "src": ".hotel_booking/wsgi.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.11.3" }
+        "src": "hotel_booking/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.11.3" }
     }],
     "routes": [
-      {
+        {
         "src": "/(.*)",
-        "dest": ".hotel_booking/wsgi.py"
-      }
+        "dest": "hotel_booking/wsgi.py"
+        }
     ]
 }

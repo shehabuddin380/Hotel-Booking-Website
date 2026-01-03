@@ -6,7 +6,8 @@ from django.db import transaction
 from .models import Hotel, Booking, Review
 from .serializers import HotelSerializer, BookingSerializer, ReviewSerializer, HotelDetailSerializer
 from .permissions import IsOwnerOrReadOnly
-
+from rest_framework.decorators import api_view
+from .models import Order
 # Hotel ViewSet
 class HotelViewSet(viewsets.ModelViewSet):
     queryset = Hotel.objects.all()
@@ -89,3 +90,15 @@ class HotelDetailView(generics.RetrieveAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelDetailSerializer
     permission_classes = [permissions.AllowAny]
+
+@api_view(['POST'])
+def create_order(request):
+    data = request.data
+    order = Order.objects.create(
+        name=data['name'],
+        phone=data['phone'],
+        address=data['address'],
+        room_id=data['room_id'],
+        amount=3500
+    )
+    return Response({"order_id": order.id})

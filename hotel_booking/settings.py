@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
     # Third-party
     'rest_framework',
+    'drf_yasg',
     'debug_toolbar',
     'cloudinary',
     'cloudinary_storage',
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'bookings',
     'hotels',
     'users',
+    'payments',
 ]
 
 # Middleware
@@ -79,16 +81,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'hotel_booking.wsgi.application'
 
 # Database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_USER'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST': config('DB_HOST'),
+#         'PORT': config('DB_PORT', default=5432, cast=int),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default=5432, cast=int),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",  # Project folder-এ DB file তৈরি হবে
     }
 }
+
 
 # Password Validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -135,3 +144,9 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="Hotel Booking <noreply@hotel.com>")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hotel, Booking, Review  # <-- শুধুমাত্র models
+from .models import Hotel, Booking, Review
 
 class ReviewSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.email')

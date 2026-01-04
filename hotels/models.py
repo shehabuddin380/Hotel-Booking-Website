@@ -19,6 +19,8 @@ class Booking(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     check_in = models.DateField()
     check_out = models.DateField()
+    is_confirmed = models.BooleanField(default=False)       
+    booked_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"{self.user} - {self.hotel}"

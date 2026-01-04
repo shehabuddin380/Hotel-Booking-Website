@@ -8,6 +8,8 @@ from .serializers import HotelSerializer, BookingSerializer, ReviewSerializer, H
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view
 from .models import Order
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 # Hotel ViewSet
 class HotelViewSet(viewsets.ModelViewSet):
     queryset = Hotel.objects.all()
@@ -102,3 +104,16 @@ def create_order(request):
         amount=3500
     )
     return Response({"order_id": order.id})
+
+@csrf_exempt
+def ssl_payment(request):
+    data = {
+        "store_id": "your_store_id",
+        "store_passwd": "your_pass",
+        "total_amount": 3500,
+        "currency": "BDT",
+        "success_url": "http://localhost:5173/success",
+        "fail_url": "http://localhost:5173/fail",
+    }
+
+    return JsonResponse(data)

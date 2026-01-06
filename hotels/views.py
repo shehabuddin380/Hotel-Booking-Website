@@ -3,11 +3,10 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.db import transaction
-from .models import Hotel, Booking, Review
+from .models import Hotel, Booking, Review ,Order ,Room
 from .serializers import HotelSerializer, BookingSerializer, ReviewSerializer, HotelDetailSerializer
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view
-from .models import Order
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 # Hotel ViewSet
@@ -117,3 +116,8 @@ def ssl_payment(request):
     }
 
     return JsonResponse(data)
+
+@api_view(["GET"])
+def room_list(request):
+    rooms = Room.objects.all().values()
+    return Response(rooms)

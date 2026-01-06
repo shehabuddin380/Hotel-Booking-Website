@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from hotels.views import room_list
+from payments.views import ssl_payment ,payment
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -39,13 +41,14 @@ urlpatterns = [
     # Auth (JWT)
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
+    path("api/", include("payments.urls")),
     # Docs
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-
-    # Root
+    path("api/rooms/", room_list),
+    path("api/payment/", ssl_payment),
     path('', api_root_view),
+    path("api/payment/", payment),
 ]
 
 if settings.DEBUG:

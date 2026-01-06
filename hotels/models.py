@@ -1,6 +1,4 @@
 from django.db import models
-
-from django.db import models
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -24,6 +22,16 @@ class Booking(models.Model):
     
     def __str__(self):
         return f"{self.user} - {self.hotel}"
+
+class Room(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    price = models.IntegerField()
+    image = models.URLField()
+
+    def __str__(self):
+        return self.name
+
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

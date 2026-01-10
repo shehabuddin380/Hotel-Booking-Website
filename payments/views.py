@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import HttpResponse
 import uuid
 
 @api_view(["POST"])
@@ -13,4 +14,8 @@ def payment(request):
     
     return Response({
         "payment_url": "http://localhost:5173/success"
-        })
+    })
+
+
+def ssl_payment(request):
+    return HttpResponse("SSL Payment Gateway Coming Soon")

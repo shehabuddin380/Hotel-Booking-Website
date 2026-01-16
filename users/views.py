@@ -5,6 +5,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
 
+
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -17,7 +18,6 @@ from .serializers import UserRegisterSerializer
 
 User = get_user_model()
 
-# Register + Send Activation Email
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
@@ -57,7 +57,7 @@ class ActivateAccount(APIView):
             return Response({"message": "Account activated successfully!"})
 
         return Response({"error": "Activation failed"}, status=400)
-# Login → JWT Token Return
+    
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def login_view(request):

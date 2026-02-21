@@ -31,32 +31,51 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
+
 # ---------------- URL Patterns ----------------
 urlpatterns = [
+
+    # Admin
     path("admin/", admin.site.urls),
 
     # API Root
     path("", api_root_view),
 
-    # App Routes
+    # Apps API
     path("api/users/", include("users.urls")),
     path("api/hotels/", include("hotels.urls")),
     path("api/payments/", include("payments.urls")),
 
-    # JWT Auth
+    # JWT Authentication
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
     # Swagger Docs
-    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="swagger-ui"),
-    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="redoc-ui"),
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="swagger-ui",
+    ),
+    path(
+        "redoc/",
+        schema_view.with_ui("redoc", cache_timeout=0),
+        name="redoc-ui",
+    ),
 ]
 
-# ---------------- Media & Debug ----------------
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# ---------------- Media Files (Images) ----------------
+if settings.DEBUG:
+
+    # Image / Media Serve
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )
+
+    # Debug Toolbar
     import debug_toolbar
+
     urlpatterns += [
         path("__debug__/", include(debug_toolbar.urls)),
     ]

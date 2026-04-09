@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django_extensions',
     # Third-party
     'rest_framework',
     'rest_framework_simplejwt',
@@ -39,10 +39,16 @@ INSTALLED_APPS = [
     'hotels',
     'users',
     'payments',
+    'corsheaders',
+    'rooms',
+
+
 ]
 
 
 MIDDLEWARE = [
+     
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
@@ -53,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'hotel_booking.urls'
 

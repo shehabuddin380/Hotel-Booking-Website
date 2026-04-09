@@ -4,7 +4,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-# Swagger / DRF-YASG
+# Swagger 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -18,7 +18,6 @@ from rest_framework_simplejwt.views import (
 from .views import api_root_view
 
 
-# ---------------- Swagger Config ----------------
 schema_view = get_schema_view(
     openapi.Info(
         title="Hotel Booking API",
@@ -32,7 +31,6 @@ schema_view = get_schema_view(
 )
 
 
-# ---------------- URL Patterns ----------------
 urlpatterns = [
 
     # Admin
@@ -64,18 +62,8 @@ urlpatterns = [
 ]
 
 
-# ---------------- Media Files (Images) ----------------
 if settings.DEBUG:
-
-    # Image / Media Serve
     urlpatterns += static(
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
     )
-
-    # Debug Toolbar
-    import debug_toolbar
-
-    urlpatterns += [
-        path("__debug__/", include(debug_toolbar.urls)),
-    ]

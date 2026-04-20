@@ -1,66 +1,43 @@
 from django.contrib import admin
 from django.urls import path, include
-
 from django.conf import settings
 from django.conf.urls.static import static
 
-# Swagger 
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-
-# JWT
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
+from rest_framework import permissions
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView
+)
+
 from .views import api_root_view
 
 
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Hotel Booking API",
-        default_version="v1",
-        description="API Documentation for Hotel Booking Project",
-        contact=openapi.Contact(email="contact@hotelbooking.com"),
-        license=openapi.License(name="BSD License"),
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
-
-
 urlpatterns = [
-
     # Admin
     path("admin/", admin.site.urls),
 
     # API Root
     path("", api_root_view),
 
-    # Apps API
+    # Apps
     path("api/users/", include("users.urls")),
+    path("api/rooms/", include("rooms.urls")),
     path("api/hotels/", include("hotels.urls")),
     path("api/payments/", include("payments.urls")),
 
-    # JWT Authentication
+    # JWT
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 
-    # Swagger Docs
-    path(
-        "swagger/",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="swagger-ui",
-    ),
-    path(
-        "redoc/",
-        schema_view.with_ui("redoc", cache_timeout=0),
-        name="redoc-ui",
-    ),
+    # API Schema + Swagger
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("swagger/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
 ]
-
 
 if settings.DEBUG:
     urlpatterns += static(

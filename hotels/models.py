@@ -9,7 +9,7 @@ class Hotel(models.Model):
     name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     description = models.TextField()
-
+    address = models.TextField()
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

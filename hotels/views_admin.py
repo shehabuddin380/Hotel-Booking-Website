@@ -6,7 +6,9 @@ from django.db.models import Count, Sum
 from datetime import timedelta
 from .models import Booking, Hotel
 from django.contrib.auth.models import User
+from drf_spectacular.utils import extend_schema
 
+@extend_schema(exclude=True)
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def dashboard_stats(request):

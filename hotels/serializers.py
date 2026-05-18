@@ -51,3 +51,4 @@ class BookingSerializer(serializers.ModelSerializer):
             'is_confirmed',
             'booked_at'
         ]
+        

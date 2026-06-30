@@ -1,6 +1,7 @@
 from pathlib import Path
 from decouple import config, Csv
 import cloudinary
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,6 +87,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / "db.sqlite3",
     }
+}
+
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True,
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [

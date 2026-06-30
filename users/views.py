@@ -17,7 +17,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserRegisterSerializer
 
 User = get_user_model()
-
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
@@ -34,12 +33,11 @@ class RegisterView(generics.CreateAPIView):
 
         send_mail(
             "Activate your HotelLux Account",
-            f"Hello {user.username}, Click here to activate your account:\n{activation_link}",
+            f"Hello {user.email}, Click here to activate your account:\n{activation_link}",
             "no-reply@hotellux.com",
             [user.email],
             fail_silently=True,
         )
-
 # Account Activation
 class ActivateAccount(APIView):
     permission_classes = [AllowAny]
@@ -57,20 +55,23 @@ class ActivateAccount(APIView):
             return Response({"message": "Account activated successfully!"})
 
         return Response({"error": "Activation failed"}, status=400)
-    
+    #login
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def login_view(request):
     email = request.data.get("email")
     password = request.data.get("password")
 
-    user = authenticate(request, email=email, password=password)
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return Response({"error": "Invalid credentials"}, status=401)
 
-    if user is None:
+    if not user.check_password(password):
         return Response({"error": "Invalid credentials"}, status=401)
 
     if not user.is_active:
-        return Response({"error": "Account not activated"}, status=403)
+        return Response({"error": "Account not activated. Please check your email."}, status=403)
 
     refresh = RefreshToken.for_user(user)
 

@@ -61,10 +61,10 @@ class ActivateAccount(APIView):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def login_view(request):
-    username = request.data.get("username")
+    email = request.data.get("email")
     password = request.data.get("password")
 
-    user = authenticate(username=username, password=password)
+    user = authenticate(request, email=email, password=password)
 
     if user is None:
         return Response({"error": "Invalid credentials"}, status=401)
@@ -77,7 +77,7 @@ def login_view(request):
     return Response({
         "access": str(refresh.access_token),
         "refresh": str(refresh),
-        "username": user.username
+        "email": user.email
     })
 # Logout
 @api_view(["POST"])

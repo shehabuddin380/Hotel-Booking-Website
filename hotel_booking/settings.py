@@ -43,11 +43,7 @@ INSTALLED_APPS = [
     'payments',
     'corsheaders',
     'rooms',
-
-
 ]
-
-
 MIDDLEWARE = [
      
     'corsheaders.middleware.CorsMiddleware',
@@ -152,3 +148,9 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "https://hotel-frontend-ot7v.vercel.app",
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+]

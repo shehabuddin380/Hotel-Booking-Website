@@ -106,12 +106,18 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-cloudinary.config(
-    cloud_name=config('CLOUDINARY_CLOUD_NAME', default=""),
-    api_key=config('CLOUDINARY_API_KEY', default=""),
-    api_secret=config('CLOUDINARY_API_SECRET', default=""),
-    secure=True
-)
+# cloudinary.config(
+#     cloud_name=config('CLOUDINARY_CLOUD_NAME', default=""),
+#     api_key=config('CLOUDINARY_API_KEY', default=""),
+#     api_secret=config('CLOUDINARY_API_SECRET', default=""),
+#     secure=True
+# )
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 

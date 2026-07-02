@@ -97,3 +97,17 @@ def dashboard_view(request):
         "booked_rooms": 5,
         "available_rooms": 7
     })
+    
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def profile_view(request):
+    user = request.user
+    return Response({
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_admin": user.is_admin,
+        "phone_number": user.phone_number,
+        "address": user.address,
+        "balance": user.balance,
+    })

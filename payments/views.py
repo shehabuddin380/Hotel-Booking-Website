@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.shortcuts import redirect
 from sslcommerz_lib import SSLCOMMERZ
 from hotels.models import Room, Order
 from decouple import config
@@ -38,7 +39,7 @@ def payment_view(request):
         'total_amount': room.price,
         'currency': "BDT",
         'tran_id': f"order_{order.id}",
-        'success_url': "https://hotel-frontend-ot7v.vercel.app/success",
+        'success_url': "https://hotel-booking-website-zpp5.vercel.app/api/payments/payment/success/",
         'fail_url': "https://hotel-frontend-ot7v.vercel.app/fail",
         'cancel_url': "https://hotel-frontend-ot7v.vercel.app/fail",
         'emi_option': 0,
@@ -73,4 +74,4 @@ def payment_success(request):
             Order.objects.get(id=order_id)
         except:
             pass
-    return Response({"message": "Payment successful"})
+    return redirect("https://hotel-frontend-ot7v.vercel.app/success")

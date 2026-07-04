@@ -64,3 +64,15 @@ def payment_view(request):
         return Response({"error": "Payment initiation failed"}, status=400)
 
 
+@api_view(["POST"])
+@permission_classes([])
+def payment_success(request):
+    tran_id = request.data.get("tran_id", "")
+    if tran_id.startswith("order_"):
+        order_id = tran_id.split("_")[1]
+        try:
+            order = Order.objects.get(id=order_id)
+            order.room.save()
+        except:
+            pass
+    return Response({"message": "Payment successful"})

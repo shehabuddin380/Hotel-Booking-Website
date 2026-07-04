@@ -22,6 +22,7 @@ urlpatterns = [
     # auth
     path("api/token/", TokenObtainPairView.as_view()),
     path("api/token/refresh/", TokenRefreshView.as_view()),
+    path("api/", include("payments.urls")),
 
     # swagger
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),

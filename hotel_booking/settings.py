@@ -5,7 +5,6 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 SECRET_KEY = config("SECRET_KEY", default="insecure-secret-key")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
@@ -17,10 +16,8 @@ ALLOWED_HOSTS = config(
 
 AUTH_USER_MODEL = "users.User"
 
-
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,14 +26,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'drf_spectacular_sidecar',
-    # Third-party
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
     'cloudinary',
     'cloudinary_storage',
-
-    # Local apps
     'api',
     'bookings',
     'hotels',
@@ -45,12 +39,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'rooms',
 ]
+
 MIDDLEWARE = [
-     
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
@@ -67,10 +61,10 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / "templates"],
-        'APP_DIRS': True,   
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',  # 🔥 এটা add করো
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -80,15 +74,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'hotel_booking.wsgi.application'
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / "db.sqlite3",
-#     }
-# }
-
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -105,13 +90,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
-# cloudinary.config(
-#     cloud_name=config('CLOUDINARY_CLOUD_NAME', default=""),
-#     api_key=config('CLOUDINARY_API_KEY', default=""),
-#     api_secret=config('CLOUDINARY_API_SECRET', default=""),
-#     secure=True
-# )
+# Cloudinary Configuration
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET'),
+    secure=True
+)
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
@@ -121,16 +106,11 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-
-
-
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
-# MEDIA_ROOT = BASE_DIR / "media"
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config("EMAIL_HOST", default="smtp.gmail.com")
@@ -142,7 +122,6 @@ DEFAULT_FROM_EMAIL = config(
     "DEFAULT_FROM_EMAIL",
     default="Hotel Booking <noreply@hotel.com>"
 )
-
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'

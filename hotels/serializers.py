@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hotel, Booking, Review
+from .models import Hotel, Booking, Review, Room
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -51,4 +51,25 @@ class BookingSerializer(serializers.ModelSerializer):
             'is_confirmed',
             'booked_at'
         ]
-        
+
+
+class RoomSerializer(serializers.ModelSerializer):
+    hotel_name = serializers.ReadOnlyField(source='hotel.name')
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Room
+        fields = [
+            'id',
+            'hotel',
+            'hotel_name',
+            'name',
+            'description',
+            'price',
+            'image',
+        ]
+
+    def get_image(self, obj):
+        if obj.image:
+            return obj.image.url
+        return None

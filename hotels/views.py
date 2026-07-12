@@ -19,7 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 class HotelViewSet(viewsets.ModelViewSet):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
-    permission_classes = [permissions.AllowAny]  # সবাই দেখতে পারবে
+    permission_classes = [permissions.AllowAny]  
 
 
 # Booking ViewSet (balance check + confirmation email + atomic + overlap check)
@@ -128,3 +128,8 @@ def room_list(request):
     rooms = Room.objects.all()
     serializer = RoomSerializer(rooms, many=True)
     return Response(serializer.data)
+
+class RoomDetailView(generics.RetrieveAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    permission_classes = [permissions.AllowAny]
